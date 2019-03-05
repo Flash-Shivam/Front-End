@@ -4,82 +4,98 @@ import Counters from "./components/counters";
 import "./App.css";
 
 class App extends Component {
-  state = {
-    counters: [
-      {
-        User: "Shourya",
+  constructor(props) {
+    super(props);
+    this.state = {
+      valuee: "",
+      counters: [
+        {
+          User: "Shourya",
 
-        id: 1,
-        value: 4,
-        category: "books",
-        sub_category: "TextBook",
-        Date: "2019/1/12"
-      },
-      {
-        User: "Shivam",
+          id: 1,
+          value: 4,
+          category: "books",
+          sub_category: "TextBook",
+          Date: "2019/1/12"
+        },
+        {
+          User: "Shivam",
 
-        id: 6,
-        value: 4,
-        category: "books",
-        sub_category: "Register",
-        Date: "2019/11/12"
-      },
-      {
-        User: "Shourya",
+          id: 6,
+          value: 4,
+          category: "books",
+          sub_category: "Register",
+          Date: "2019/11/12"
+        },
+        {
+          User: "Shourya",
 
-        id: 7,
-        value: 4,
-        category: "books",
-        sub_category: "Notebook",
-        Date: "2019/10/12"
-      },
-      {
-        User: "NavNeel",
+          id: 7,
+          value: 4,
+          category: "books",
+          sub_category: "Notebook",
+          Date: "2019/10/12"
+        },
+        {
+          User: "NavNeel",
 
-        id: 8,
-        value: 4,
-        category: "books",
-        sub_category: "TextBook",
-        Date: "2019/10/11"
-      },
-      {
-        User: "NavNeel",
+          id: 8,
+          value: 4,
+          category: "books",
+          sub_category: "TextBook",
+          Date: "2019/10/11"
+        },
+        {
+          User: "NavNeel",
 
-        id: 2,
-        value: 0,
-        category: "online",
-        sub_category: "Flipkart",
-        Date: "2019/3/1"
-      },
-      {
-        User: "Shivam",
+          id: 2,
+          value: 0,
+          category: "online",
+          sub_category: "Flipkart",
+          Date: "2019/3/1"
+        },
+        {
+          User: "Shivam",
 
-        id: 3,
-        value: 0,
-        category: "books",
-        sub_category: "NoteBook",
-        Date: "2016/4/12"
-      },
-      {
-        User: "Shaswat",
+          id: 3,
+          value: 0,
+          category: "books",
+          sub_category: "NoteBook",
+          Date: "2016/4/12"
+        },
+        {
+          User: "Shaswat",
 
-        id: 4,
-        value: 4,
-        category: "Food",
-        sub_category: "Zomato",
-        Date: "2019/2/12"
-      },
-      {
-        User: "Manoj",
+          id: 4,
+          value: 4,
+          category: "Food",
+          sub_category: "Zomato",
+          Date: "2019/2/12"
+        },
+        {
+          User: "Manoj",
 
-        id: 5,
-        value: 4,
-        category: "Food",
-        sub_category: "UberEats",
-        Date: "2018/3/14"
-      }
-    ]
-  };
+          id: 5,
+          value: 4,
+          category: "Food",
+          sub_category: "UberEats",
+          Date: "2018/3/14"
+        }
+      ]
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ valuee: event.target.value });
+  }
+
+  handleSubmit(event) {
+    alert("A name was submitted: " + this.state.valuee);
+    event.preventDefault();
+  }
 
   handleDelete = counterId => {
     const counters = this.state.counters.filter(c => c.id !== counterId);
@@ -164,6 +180,21 @@ class App extends Component {
     return x;
   };
 
+  maxx = () => {
+    const counters = [...this.state.counters];
+    let i = 0;
+    let x = counters[0].value;
+    let y = 0;
+    for (i = 1; i < counters.length; i++) {
+      if (counters[i].value > x) {
+        x = counters[i].value;
+        y = i;
+      }
+    }
+    console.log(y);
+    return y;
+  };
+
   addUserMoney = username => {
     const counters = [...this.state.counters];
     let i = 0;
@@ -190,8 +221,19 @@ class App extends Component {
           sum={this.add()}
           user={this.state.counters.length}
         />
-
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <input
+              type="text"
+              value={this.state.valuee}
+              onChange={this.handleChange}
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
         <h1 className="App-title  m-3">Sample WEB APP</h1>
+
         <main className="jumbotron  ">
           <Counters
             counters={this.state.counters}
@@ -205,6 +247,12 @@ class App extends Component {
             Rank={this.handleRank}
           />
           <div />
+          <h3 className="text text-success">
+            The Most Expensive thing on Cart is{" : "}
+            {this.state.counters[this.maxx()].category} by{" "}
+            {this.state.counters[this.maxx()].sub_category} for $
+            {this.state.counters[this.maxx()].value}
+          </h3>
           <button onClick={this.handleReverse} className="btn btn-success m-5">
             Reverse
           </button>

@@ -9,7 +9,7 @@ class Counter extends Component {
             <thead>{this.props.counter.User}</thead>
 
             <tr>
-              <th className="text-center">ID</th>
+              <th className="text-center"> Transaction ID</th>
               <th className="text-center">Price</th>
               <th className="text-center">Category</th>
               <th className="text-center">Date</th>
