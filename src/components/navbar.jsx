@@ -14,7 +14,7 @@ class navbar extends Component {
               Total Items : {this.props.total}
             </span>
             <span className={"badge badge-lg badge-success m-2"}>
-              Money Received : ${this.props.sum}
+              Net CASH : ${this.props.sum}
             </span>
             <span className={"badge badge-lg badge-success m-2"}>
               {this.helperr()}
@@ -29,7 +29,7 @@ class navbar extends Component {
     if (this.props.help === "") {
       return "";
     } else {
-      return "Money Received (modified) : " + this.props.help;
+      return " Net CASH transctions : " + this.props.help;
     }
   }
 }

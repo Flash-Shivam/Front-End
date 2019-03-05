@@ -11,7 +11,7 @@ class App extends Component {
       counters: [
         {
           User: "Shourya",
-
+          sold: true,
           id: 1,
           value: 124,
           category: "books",
@@ -20,7 +20,7 @@ class App extends Component {
         },
         {
           User: "Shivam",
-
+          sold: true,
           id: 6,
           value: 400,
           category: "books",
@@ -29,7 +29,7 @@ class App extends Component {
         },
         {
           User: "Shourya",
-
+          sold: false,
           id: 7,
           value: 157,
           category: "books",
@@ -38,7 +38,7 @@ class App extends Component {
         },
         {
           User: "NavNeel",
-
+          sold: true,
           id: 8,
           value: 75,
           category: "books",
@@ -47,7 +47,7 @@ class App extends Component {
         },
         {
           User: "NavNeel",
-
+          sold: true,
           id: 2,
           value: 100,
           category: "online",
@@ -56,7 +56,7 @@ class App extends Component {
         },
         {
           User: "Shivam",
-
+          sold: true,
           id: 3,
           value: 90,
           category: "books",
@@ -65,7 +65,7 @@ class App extends Component {
         },
         {
           User: "Shaswat",
-
+          sold: true,
           id: 4,
           value: 48,
           category: "Food",
@@ -74,7 +74,7 @@ class App extends Component {
         },
         {
           User: "Manoj",
-
+          sold: false,
           id: 5,
           value: 423,
           category: "Food",
@@ -95,7 +95,7 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    alert("A name was submitted: " + this.state.valuee);
+    alert("A Date was submitted: " + this.state.valuee);
 
     const counters = [...this.state.counters];
     let i = 0;
@@ -188,7 +188,11 @@ class App extends Component {
     let i = 0;
     let x = 0;
     for (i = 0; i < counters.length; i++) {
-      x = x + counters[i].value;
+      if (counters[i].sold === true) {
+        x = x + counters[i].value;
+      } else {
+        x = x - counters[i].value;
+      }
     }
 
     return x;
@@ -215,7 +219,11 @@ class App extends Component {
     let x = 0;
     for (i = 0; i < counters.length; i++) {
       if (counters[i].User === username) {
-        x = x + counters[i].value;
+        if (counters[i].sold === true) {
+          x = x + counters[i].value;
+        } else {
+          x = x - counters[i].value;
+        }
       }
     }
 
@@ -242,7 +250,7 @@ class App extends Component {
         <main className="jumbotron  ">
           <form onSubmit={this.handleSubmit}>
             <label>
-              Money received after the Date:
+              Net CASH transctions after the Date:
               <input
                 className="m-2"
                 type="text"

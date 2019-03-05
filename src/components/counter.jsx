@@ -13,10 +13,11 @@ class Counter extends Component {
               <th className="text-center">Price</th>
               <th className="text-center">Category</th>
               <th className="text-center">Date</th>
+              <th className="text-center">Type of Transaction</th>
               <th className="text-center">Delete Entry</th>
               <th className="text-center">Increment Price</th>
               <th className="text-center text-secondary text-md">
-                Money Spent By {this.props.counter.User}
+                {this.kim()} {this.props.counter.User}
               </th>
             </tr>
 
@@ -29,7 +30,7 @@ class Counter extends Component {
               </td>
               <td className="text-center"> {this.formatCounterCat()}</td>
               <td className="text-center"> {this.formatCounterDate()}</td>
-
+              <td className="text-center">{this.sim()}</td>
               <td className="text-center">
                 <button
                   onClick={() => this.props.onDelete(this.props.counter.id)}
@@ -47,15 +48,37 @@ class Counter extends Component {
                 </button>
               </td>
               <td className="text-center">
-                <h3 className="text-danger">
-                  -{this.props.UseMoney(this.props.counter.User)}
-                </h3>
+                <h3 className={this.helps()}>{this.MoneySold()}</h3>
               </td>
             </tr>
           </tbody>
         </table>
       </React.Fragment>
     );
+  }
+
+  helps() {
+    if (this.props.UseMoney(this.props.counter.User) < 0) {
+      return "text text-danger";
+    } else {
+      return "text text-success";
+    }
+  }
+
+  kim() {
+    if (this.props.counter.sold === true) {
+      return "Money PAID by ";
+    } else {
+      return "Money RECEIVED by";
+    }
+  }
+
+  sim() {
+    if (this.props.counter.sold === true) {
+      return "PAID";
+    } else {
+      return "RECEIVED";
+    }
   }
 
   getBadgeClasses() {
@@ -87,6 +110,14 @@ class Counter extends Component {
       return <h7>Zero</h7>;
     } else {
       return this.props.counter.value;
+    }
+  }
+
+  MoneySold() {
+    if (this.props.UseMoney(this.props.counter.User) >= 0) {
+      return "+" + this.props.UseMoney(this.props.counter.User);
+    } else {
+      return this.props.UseMoney(this.props.counter.User);
     }
   }
 
