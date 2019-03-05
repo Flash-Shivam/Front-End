@@ -8,21 +8,7 @@ class App extends Component {
     counters: [
       {
         User: "Shourya",
-        Trait: [1, 2, 3],
-        Rank: [
-          {
-            co: 1,
-            Location: "Delhi"
-          },
-          {
-            co: 2,
-            Location: "Delhi"
-          },
-          {
-            co: 4,
-            Location: "Delhi"
-          }
-        ],
+
         id: 1,
         value: 4,
         category: "books",
@@ -30,22 +16,35 @@ class App extends Component {
         Date: "2019/1/12"
       },
       {
+        User: "Shivam",
+
+        id: 6,
+        value: 4,
+        category: "books",
+        sub_category: "Register",
+        Date: "2019/11/12"
+      },
+      {
+        User: "Shourya",
+
+        id: 7,
+        value: 4,
+        category: "books",
+        sub_category: "Notebook",
+        Date: "2019/10/12"
+      },
+      {
         User: "NavNeel",
-        Trait: [1, 2, 3],
-        Rank: [
-          {
-            co: 1,
-            Location: "Delhi"
-          },
-          {
-            co: 2,
-            Location: "Delhi"
-          },
-          {
-            co: 4,
-            Location: "Delhi"
-          }
-        ],
+
+        id: 8,
+        value: 4,
+        category: "books",
+        sub_category: "TextBook",
+        Date: "2019/10/11"
+      },
+      {
+        User: "NavNeel",
+
         id: 2,
         value: 0,
         category: "online",
@@ -54,21 +53,7 @@ class App extends Component {
       },
       {
         User: "Shivam",
-        Trait: [1, 2, 3],
-        Rank: [
-          {
-            co: 1,
-            Location: "Delhi"
-          },
-          {
-            co: 2,
-            Location: "Delhi"
-          },
-          {
-            co: 4,
-            Location: "Delhi"
-          }
-        ],
+
         id: 3,
         value: 0,
         category: "books",
@@ -77,21 +62,7 @@ class App extends Component {
       },
       {
         User: "Shaswat",
-        Trait: [1, 2, 3],
-        Rank: [
-          {
-            co: 1,
-            Location: "Delhi"
-          },
-          {
-            co: 2,
-            Location: "Delhi"
-          },
-          {
-            co: 4,
-            Location: "Delhi"
-          }
-        ],
+
         id: 4,
         value: 4,
         category: "Food",
@@ -100,21 +71,7 @@ class App extends Component {
       },
       {
         User: "Manoj",
-        Trait: [1, 2, 3],
-        Rank: [
-          {
-            co: 1,
-            Location: "Delhi"
-          },
-          {
-            co: 2,
-            Location: "Delhi"
-          },
-          {
-            co: 4,
-            Location: "Delhi"
-          }
-        ],
+
         id: 5,
         value: 4,
         category: "Food",
@@ -153,6 +110,12 @@ class App extends Component {
     this.setState({ counters: cr });
   };
 
+  handleSortUser = () => {
+    let counters = [...this.state.counters];
+    let cr = counters.sort((a, b) => a.User > b.User);
+    this.setState({ counters: cr });
+  };
+
   handleReset = () => {
     const counters = this.state.counters.map(c => {
       c.value = 0;
@@ -167,21 +130,6 @@ class App extends Component {
     counters[index] = { ...counter };
     counters[index].value++;
     this.setState({ counters });
-  };
-
-  handleTrait = counter => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(counter);
-    counters[index] = { ...counter };
-    counters[index].value++;
-
-    let i = 0;
-    let x = 0;
-    for (i = 0; i < counters[index].Trait.length; i++) {
-      x = x + counters[index].Trait[i];
-    }
-
-    return x;
   };
 
   handleRank = counter => {
@@ -216,6 +164,19 @@ class App extends Component {
     return x;
   };
 
+  addUserMoney = username => {
+    const counters = [...this.state.counters];
+    let i = 0;
+    let x = 0;
+    for (i = 0; i < counters.length; i++) {
+      if (counters[i].User === username) {
+        x = x + counters[i].value;
+      }
+    }
+
+    return x;
+  };
+
   handleShowOnline = () => {
     const counters = this.state.counters.filter(c => c.category === "online");
     this.setState({ counters });
@@ -240,7 +201,7 @@ class App extends Component {
             OnShow={this.handleShowBooks}
             OnShowOnline={this.handleShowOnline}
             Ad={this.add}
-            Money={this.handleTrait}
+            UseMoney={this.addUserMoney}
             Rank={this.handleRank}
           />
           <div />
@@ -249,6 +210,9 @@ class App extends Component {
           </button>
           <button onClick={this.handleSort} className="btn btn-primary m-5">
             Sort By Value
+          </button>
+          <button onClick={this.handleSortUser} className="btn btn-primary m-5">
+            Sort User
           </button>
           <button onClick={this.handleSorto} className="btn btn-primary m-5">
             Sort By Date

@@ -25,7 +25,7 @@ class Counters extends Component {
             onDelete={this.props.OnDelete}
             onIncrement={this.props.OnIncrement}
             counter={counter}
-            Money={this.props.Money}
+            UseMoney={this.props.UseMoney}
             Rank={this.props.Rank}
           />
         ))}
