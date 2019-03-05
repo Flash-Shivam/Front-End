@@ -7,13 +7,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      valuee: "",
+      valuee: "yyyy/mm/dd",
       counters: [
         {
           User: "Shourya",
 
           id: 1,
-          value: 4,
+          value: 124,
           category: "books",
           sub_category: "TextBook",
           Date: "2019/1/12"
@@ -22,7 +22,7 @@ class App extends Component {
           User: "Shivam",
 
           id: 6,
-          value: 4,
+          value: 400,
           category: "books",
           sub_category: "Register",
           Date: "2019/11/12"
@@ -31,7 +31,7 @@ class App extends Component {
           User: "Shourya",
 
           id: 7,
-          value: 4,
+          value: 157,
           category: "books",
           sub_category: "Notebook",
           Date: "2019/10/12"
@@ -40,7 +40,7 @@ class App extends Component {
           User: "NavNeel",
 
           id: 8,
-          value: 4,
+          value: 75,
           category: "books",
           sub_category: "TextBook",
           Date: "2019/10/11"
@@ -49,7 +49,7 @@ class App extends Component {
           User: "NavNeel",
 
           id: 2,
-          value: 0,
+          value: 100,
           category: "online",
           sub_category: "Flipkart",
           Date: "2019/3/1"
@@ -58,7 +58,7 @@ class App extends Component {
           User: "Shivam",
 
           id: 3,
-          value: 0,
+          value: 90,
           category: "books",
           sub_category: "NoteBook",
           Date: "2016/4/12"
@@ -67,7 +67,7 @@ class App extends Component {
           User: "Shaswat",
 
           id: 4,
-          value: 4,
+          value: 48,
           category: "Food",
           sub_category: "Zomato",
           Date: "2019/2/12"
@@ -76,12 +76,14 @@ class App extends Component {
           User: "Manoj",
 
           id: 5,
-          value: 4,
+          value: 423,
           category: "Food",
           sub_category: "UberEats",
           Date: "2018/3/14"
         }
-      ]
+      ],
+      TotalMoney: 0,
+      toggle: true
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -94,7 +96,19 @@ class App extends Component {
 
   handleSubmit(event) {
     alert("A name was submitted: " + this.state.valuee);
+
+    const counters = [...this.state.counters];
+    let i = 0;
+    let x = 0;
+    for (i = 0; i < counters.length; i++) {
+      if (counters[i].Date > this.state.valuee) {
+        x = x + counters[i].value;
+      }
+    }
     event.preventDefault();
+
+    this.setState({ TotalMoney: x });
+    this.setState({ toggle: false });
   }
 
   handleDelete = counterId => {
@@ -220,21 +234,24 @@ class App extends Component {
           total={this.state.counters.filter(c => c.value > 0).length}
           sum={this.add()}
           user={this.state.counters.length}
+          help={this.helper()}
         />
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input
-              type="text"
-              value={this.state.valuee}
-              onChange={this.handleChange}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <h1 className="App-title  m-3">Sample WEB APP</h1>
+
+        <h1 className="text text-center text-bold bg-primary  ">IITD MART</h1>
 
         <main className="jumbotron  ">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Money received after the Date:
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.valuee}
+                onChange={this.handleChange}
+              />
+            </label>
+            <input type="submit" className="text text-success" value="Submit" />
+          </form>
           <Counters
             counters={this.state.counters}
             OnReset={this.handleReset}
@@ -271,6 +288,14 @@ class App extends Component {
         </main>
       </React.Fragment>
     );
+  }
+
+  helper() {
+    if (this.state.toggle === false) {
+      return this.state.TotalMoney;
+    } else {
+      return "";
+    }
   }
 }
 

@@ -16,10 +16,21 @@ class navbar extends Component {
             <span className={"badge badge-lg badge-success m-2"}>
               Money Received : ${this.props.sum}
             </span>
+            <span className={"badge badge-lg badge-success m-2"}>
+              {this.helperr()}
+            </span>
           </a>
         </nav>
       </React.Fragment>
     );
+  }
+
+  helperr() {
+    if (this.props.help === "") {
+      return "";
+    } else {
+      return "Money Received (modified) : " + this.props.help;
+    }
   }
 }
 
