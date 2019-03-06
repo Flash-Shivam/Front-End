@@ -7,6 +7,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      Newid: "",
+      NewDate: "",
+      NewUser: "",
+      NewCat: "",
+      NewPrice: "",
+      NewType: false,
+      checked: false,
       ExchangeRate: "1",
       valuee: "yyyy/mm/dd",
       counters: [
@@ -91,6 +98,40 @@ class App extends Component {
     this.exchange = this.exchange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeval = this.changeval.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+    this.handleDate = this.handleDate.bind(this);
+    this.handleUser = this.handleUser.bind(this);
+    this.handleCat = this.handleCat.bind(this);
+    this.handlePrice = this.handlePrice.bind(this);
+    this.handleId = this.handleId.bind(this);
+    this.handleType = this.handleType.bind(this);
+  }
+  handleCat(event) {
+    this.setState({ NewCat: event.target.value });
+  }
+
+  handleUser(event) {
+    this.setState({ NewUser: event.target.value });
+  }
+
+  handlePrice(event) {
+    this.setState({ NewPrice: event.target.value });
+  }
+
+  handleType(event) {
+    this.setState({ NewType: event.target.value });
+  }
+
+  handleId(event) {
+    this.setState({ Newid: event.target.value });
+  }
+
+  handleDate(event) {
+    this.setState({ NewDate: event.target.value });
+  }
+
+  handleCheck() {
+    this.setState({ checked: !this.state.checked });
   }
 
   exchange(event) {
@@ -242,6 +283,20 @@ class App extends Component {
     return x;
   };
 
+  handledata = () => {
+    this.setState({
+      counters: this.state.counters.concat({
+        User: this.state.NewUser,
+        sold: this.state.NewType,
+        id: this.state.Newid,
+        value: this.state.NewPrice,
+        category: this.state.NewCat,
+        sub_category: this.state.NewCat,
+        Date: this.state.NewDate
+      })
+    });
+  };
+
   handleShowOnline = () => {
     const counters = this.state.counters.filter(c => c.category === "online");
     this.setState({ counters });
@@ -273,7 +328,7 @@ class App extends Component {
             <input type="submit" className="text text-success" value="Submit" />
           </form>
 
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.changeval}>
             <label>
               Exchange Rate:
               <input
@@ -284,19 +339,73 @@ class App extends Component {
               />
             </label>
           </form>
-
-          <Counters
-            counters={this.state.counters}
-            OnReset={this.handleReset}
-            OnIncrement={this.handleIncrement}
-            OnDelete={this.handleDelete}
-            OnShow={this.handleShowBooks}
-            OnShowOnline={this.handleShowOnline}
-            Ad={this.add}
-            UseMoney={this.addUserMoney}
-            Rank={this.handleRank}
+          <input
+            type="checkbox"
+            onChange={this.handleCheck}
+            defaultChecked={this.state.checked}
           />
+
+          {this.track()}
           <div />
+          <form>
+            <label>
+              Transaction ID :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.Newid}
+                onChange={this.handleId}
+              />
+            </label>
+            <label>
+              User :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.NewUser}
+                onChange={this.handleUser}
+              />
+            </label>
+            <label>
+              Category :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.NewCat}
+                onChange={this.handleCat}
+              />
+            </label>
+            <label>
+              Price :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.NewPrice}
+                onChange={this.handlePrice}
+              />
+            </label>
+            <label>
+              Date :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.NewDate}
+                onChange={this.handleDate}
+              />
+            </label>
+            <label>
+              Type of transaction :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.NewType}
+                onChange={this.handleType}
+              />
+            </label>
+          </form>
+          <button className="btn btn-success m-4" onClick={this.handledata}>
+            Add Data
+          </button>
           <h3 className="text text-success">
             The Most Expensive thing on Cart is{" : "}
             {this.state.counters[this.maxx()].category} by{" "}
@@ -326,6 +435,26 @@ class App extends Component {
   helper() {
     if (this.state.toggle === false) {
       return this.state.TotalMoney;
+    } else {
+      return "";
+    }
+  }
+
+  track() {
+    if (this.state.checked === false) {
+      return (
+        <Counters
+          counters={this.state.counters}
+          OnReset={this.handleReset}
+          OnIncrement={this.handleIncrement}
+          OnDelete={this.handleDelete}
+          OnShow={this.handleShowBooks}
+          OnShowOnline={this.handleShowOnline}
+          Ad={this.add}
+          UseMoney={this.addUserMoney}
+          Rank={this.handleRank}
+        />
+      );
     } else {
       return "";
     }
