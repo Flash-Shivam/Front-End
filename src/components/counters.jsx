@@ -27,6 +27,7 @@ class Counters extends Component {
             counter={counter}
             UseMoney={this.props.UseMoney}
             Rank={this.props.Rank}
+            TotalSum={this.props.TotalSum}
           />
         ))}
       </React.Fragment>

@@ -41,7 +41,7 @@ class Counter extends Component {
               </td>
               <td className="text-center">
                 <button
-                  onClick={() => this.props.onIncrement(this.props.counter)}
+                  onClick={() => this.props.onIncrement(this.props.counter, 10)}
                   className="btn btn-secondary btn-default m-2"
                 >
                   Increment
@@ -95,12 +95,12 @@ class Counter extends Component {
 
   getTextClasses() {
     let classes = "text text-center ";
-    if (this.props.counter.value === 0) {
+    if (5 * this.props.counter.value > this.props.TotalSum) {
+      classes = classes + "text-danger";
+    } else if (20 * this.props.counter.value > this.props.TotalSum) {
       classes = classes + "text-warning";
-    } else if (this.props.counter.value <= 10) {
-      classes = classes + "text-info";
     } else {
-      classes = classes + "text-secondary";
+      classes = classes + "text-info";
     }
     return classes;
   }

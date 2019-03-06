@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Navbar from "./components/navbar";
 import Counters from "./components/counters";
 import "./App.css";
+import { FaBeer, FaSmile, FaSadCry } from "react-icons/fa";
+import Calendar from "react-calendar";
 
 class App extends Component {
   constructor(props) {
@@ -207,11 +209,11 @@ class App extends Component {
     this.setState({ counters });
   };
 
-  handleIncrement = counter => {
+  handleIncrement = (counter, r) => {
     const counters = [...this.state.counters];
     const index = counters.indexOf(counter);
     counters[index] = { ...counter };
-    counters[index].value++;
+    counters[index].value = counters[index].value + r;
     this.setState({ counters });
   };
 
@@ -246,6 +248,17 @@ class App extends Component {
       } else {
         x = x - counters[i].value * this.state.ExchangeRate;
       }
+    }
+
+    return x;
+  };
+
+  addd = () => {
+    const counters = [...this.state.counters];
+    let i = 0;
+    let x = 0;
+    for (i = 0; i < counters.length; i++) {
+      x = x + counters[i].value * this.state.ExchangeRate;
     }
 
     return x;
@@ -309,9 +322,10 @@ class App extends Component {
           total={this.state.counters.filter(c => c.value > 0).length}
           sum={this.add()}
           user={this.state.counters.length}
+          cash={this.addd()}
           help={this.helper()}
+          status={this.helpemoji()}
         />
-
         <h1 className="text text-center text-bold bg-primary  ">IITD MART</h1>
 
         <main className="jumbotron  ">
@@ -416,7 +430,7 @@ class App extends Component {
             Reverse
           </button>
           <button onClick={this.handleSort} className="btn btn-primary m-5">
-            Sort By Value
+            Sort By Price
           </button>
           <button onClick={this.handleSortUser} className="btn btn-primary m-5">
             Sort User
@@ -427,6 +441,7 @@ class App extends Component {
           <button onClick={this.handleSortoc} className="btn btn-primary m-5">
             Sort By Category
           </button>
+          <Calendar />
         </main>
       </React.Fragment>
     );
@@ -437,6 +452,14 @@ class App extends Component {
       return this.state.TotalMoney;
     } else {
       return "";
+    }
+  }
+
+  helpemoji() {
+    if (2 * this.add() > this.addd()) {
+      return <FaSmile />;
+    } else {
+      return <FaSadCry />;
     }
   }
 
@@ -453,6 +476,7 @@ class App extends Component {
           Ad={this.add}
           UseMoney={this.addUserMoney}
           Rank={this.handleRank}
+          TotalSum={this.addd()}
         />
       );
     } else {

@@ -14,10 +14,16 @@ class navbar extends Component {
               Total Items : {this.props.total}
             </span>
             <span className={"badge badge-lg badge-success m-2"}>
-              Net CASH : ${this.props.sum}
+              Net CASH : Rs {this.props.sum}
             </span>
             <span className={"badge badge-lg badge-success m-2"}>
               {this.helperr()}
+            </span>
+            <span className={"badge badge-lg badge-success m-2"}>
+              Net Cash: {this.props.cash}
+            </span>
+            <span className={"badge-primary"}>
+              Current Status : {this.props.status}
             </span>
           </a>
         </nav>
