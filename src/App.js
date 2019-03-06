@@ -3,7 +3,9 @@ import Navbar from "./components/navbar";
 import Counters from "./components/counters";
 import "./App.css";
 import { FaBeer, FaSmile, FaSadCry } from "react-icons/fa";
-import Calendar from "react-calendar";
+import CalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
+import "./components/style.css";
 
 class App extends Component {
   constructor(props) {
@@ -26,7 +28,7 @@ class App extends Component {
           value: 124,
           category: "books",
           sub_category: "TextBook",
-          Date: "2019/1/12"
+          Date: "2019-01-12"
         },
         {
           User: "Shivam",
@@ -35,7 +37,7 @@ class App extends Component {
           value: 400,
           category: "books",
           sub_category: "Register",
-          Date: "2019/11/12"
+          Date: "2019-11-12"
         },
         {
           User: "Shourya",
@@ -44,7 +46,7 @@ class App extends Component {
           value: 157,
           category: "books",
           sub_category: "Notebook",
-          Date: "2019/10/12"
+          Date: "2019-10-12"
         },
         {
           User: "NavNeel",
@@ -53,7 +55,7 @@ class App extends Component {
           value: 75,
           category: "books",
           sub_category: "TextBook",
-          Date: "2019/10/11"
+          Date: "2019-10-11"
         },
         {
           User: "NavNeel",
@@ -62,7 +64,7 @@ class App extends Component {
           value: 100,
           category: "online",
           sub_category: "Flipkart",
-          Date: "2019/3/1"
+          Date: "2019-03-01"
         },
         {
           User: "Shivam",
@@ -71,7 +73,7 @@ class App extends Component {
           value: 90,
           category: "books",
           sub_category: "NoteBook",
-          Date: "2016/4/12"
+          Date: "2016-04-12"
         },
         {
           User: "Shaswat",
@@ -80,7 +82,7 @@ class App extends Component {
           value: 48,
           category: "Food",
           sub_category: "Zomato",
-          Date: "2019/2/12"
+          Date: "2019-02-12"
         },
         {
           User: "Manoj",
@@ -89,7 +91,7 @@ class App extends Component {
           value: 423,
           category: "Food",
           sub_category: "UberEats",
-          Date: "2018/3/14"
+          Date: "2018-03-14"
         }
       ],
       TotalMoney: 0,
@@ -441,8 +443,25 @@ class App extends Component {
           <button onClick={this.handleSortoc} className="btn btn-primary m-5">
             Sort By Category
           </button>
-          <Calendar />
         </main>
+        <div style={{ width: 500 }} className="m-2 ">
+          <CalendarHeatmap
+            startDate={new Date("2016-01-01")}
+            endDate={new Date("2016-04-01")}
+            values={[
+              { date: "2016-01-07", count: 3 },
+              { date: "2016-01-03", count: 4 },
+              { date: "2016-04-01", count: 2 }
+              // ...and so on
+            ]}
+            classForValue={value => {
+              if (!value) {
+                return "color-empty";
+              }
+              return `color-scale-${value.count}`;
+            }}
+          />
+        </div>
       </React.Fragment>
     );
   }
