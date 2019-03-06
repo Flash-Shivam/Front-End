@@ -6,7 +6,7 @@ import { FaBeer, FaSmile, FaSadCry } from "react-icons/fa";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import "./components/style.css";
-
+import PieChart from "react-minimal-pie-chart";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -461,6 +461,16 @@ class App extends Component {
               return `color-scale-${value.count}`;
             }}
           />
+        </div>
+        <div style={{ width: 100 }}>
+          <PieChart
+            data={[
+              { title: "One", value: 10, color: "#E38627" },
+              { title: "Two", value: 15, color: "#C13C37" },
+              { title: "Three", value: 20, color: "#6A2135" }
+            ]}
+          />
+          ;
         </div>
       </React.Fragment>
     );

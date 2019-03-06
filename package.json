@@ -11,6 +11,7 @@
     "react-charts": "^2.0.0-alpha.12",
     "react-dom": "^16.8.3",
     "react-icons": "^3.5.0",
+    "react-minimal-pie-chart": "^3.5.0",
     "react-router": "^4.3.1",
     "react-scripts": "2.1.5"
   },
