@@ -7,6 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      ExchangeRate: "1",
       valuee: "yyyy/mm/dd",
       counters: [
         {
@@ -87,7 +88,18 @@ class App extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.exchange = this.exchange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.changeval = this.changeval.bind(this);
+  }
+
+  exchange(event) {
+    this.setState({ ExchangeRate: event.target.value });
+  }
+
+  changeval(event) {
+    this.setState({ ExchangeRate: event.target.value });
+    event.preventDefault();
   }
 
   handleChange(event) {
@@ -102,7 +114,7 @@ class App extends Component {
     let x = 0;
     for (i = 0; i < counters.length; i++) {
       if (counters[i].Date > this.state.valuee) {
-        x = x + counters[i].value;
+        x = x + counters[i].value * this.state.ExchangeRate;
       }
     }
     event.preventDefault();
@@ -189,9 +201,9 @@ class App extends Component {
     let x = 0;
     for (i = 0; i < counters.length; i++) {
       if (counters[i].sold === true) {
-        x = x + counters[i].value;
+        x = x + counters[i].value * this.state.ExchangeRate;
       } else {
-        x = x - counters[i].value;
+        x = x - counters[i].value * this.state.ExchangeRate;
       }
     }
 
@@ -220,9 +232,9 @@ class App extends Component {
     for (i = 0; i < counters.length; i++) {
       if (counters[i].User === username) {
         if (counters[i].sold === true) {
-          x = x + counters[i].value;
+          x = x + counters[i].value * this.state.ExchangeRate;
         } else {
-          x = x - counters[i].value;
+          x = x - counters[i].value * this.state.ExchangeRate;
         }
       }
     }
@@ -260,6 +272,19 @@ class App extends Component {
             </label>
             <input type="submit" className="text text-success" value="Submit" />
           </form>
+
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Exchange Rate:
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.ExchangeRate}
+                onChange={this.changeval}
+              />
+            </label>
+          </form>
+
           <Counters
             counters={this.state.counters}
             OnReset={this.handleReset}
@@ -275,8 +300,8 @@ class App extends Component {
           <h3 className="text text-success">
             The Most Expensive thing on Cart is{" : "}
             {this.state.counters[this.maxx()].category} by{" "}
-            {this.state.counters[this.maxx()].sub_category} for $
-            {this.state.counters[this.maxx()].value}
+            {this.state.counters[this.maxx()].sub_category} for Rs{" "}
+            {this.state.counters[this.maxx()].value}/-
           </h3>
           <button onClick={this.handleReverse} className="btn btn-success m-5">
             Reverse
