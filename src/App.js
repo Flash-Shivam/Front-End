@@ -6,12 +6,11 @@ import { FaSmile, FaSadCry } from "react-icons/fa";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import "./components/style.css";
-import PieChart from "react-minimal-pie-chart";
+import BarChart from "react-bar-chart";
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Newid: "",
       NewDate: "",
       NewUser: "",
       NewCat: "",
@@ -130,7 +129,7 @@ class App extends Component {
           Date: "2019-03-14"
         }
       ],
-
+      Newid: "",
       TotalMoney: 0,
       toggle: true
     };
@@ -222,7 +221,7 @@ class App extends Component {
     var x = [];
     var z = [];
     var prev;
-    for (i = 0; i < m.length - 1; i++) {
+    for (i = 1; i < m.length; i++) {
       if (m[i] !== prev) {
         x.push(m[i]);
         z.push(1);
@@ -232,7 +231,7 @@ class App extends Component {
       prev = m[i];
     }
 
-    for (i = 0; i < m.length - 1; i++) {
+    for (i = 0; i < x.length; i++) {
       y.push({
         date: x[i],
         count: z[i]
@@ -240,6 +239,100 @@ class App extends Component {
     }
 
     return y;
+  };
+
+  getNamecount = () => {
+    let i = 0;
+    var s = "";
+    for (i = 0; i < this.state.counters.length; i++) {
+      s = s + this.state.counters[i].User + "@";
+    }
+    var m = s.split("@");
+    m.sort();
+    var y = [];
+    var x = [];
+    var z = [];
+    var prev;
+    for (i = 1; i < m.length; i++) {
+      if (m[i] !== prev) {
+        x.push(m[i]);
+        z.push(1);
+      } else {
+        z[z.length - 1]++;
+      }
+      prev = m[i];
+    }
+
+    for (i = 0; i < x.length; i++) {
+      y.push({
+        text: x[i],
+        value: z[i]
+      });
+    }
+
+    return y;
+  };
+
+  getNameprice = () => {
+    let i = 0;
+    var s = "";
+    for (i = 0; i < this.state.counters.length; i++) {
+      s = s + this.state.counters[i].User + "@";
+    }
+    var m = s.split("@");
+    m.sort();
+    var y = [];
+    var x = [];
+    var z = [];
+    var prev;
+    for (i = 1; i < m.length; i++) {
+      if (m[i] !== prev) {
+        x.push(m[i]);
+      }
+      prev = m[i];
+    }
+    let j = 0;
+    let temp = 0;
+    for (i = 0; i < x.length; i++) {
+      temp = 0;
+      for (j = 0; j < this.state.counters.length; j++) {
+        if (x[i] === this.state.counters[j].User) {
+          temp = temp + this.state.counters[j].value;
+        }
+      }
+      z.push(temp);
+    }
+
+    for (i = 0; i, x.length; i++) {
+      y.push({
+        text: x[i],
+        value: z[i]
+      });
+    }
+
+    return y;
+  };
+
+  getNames = () => {
+    let i = 0;
+    var s = "";
+    for (i = 0; i < this.state.counters.length; i++) {
+      s = s + this.state.counters[i].User + "@";
+    }
+    var m = s.split("@");
+    m.sort();
+    var y = [];
+    var x = [];
+    var z = [];
+    var prev;
+    for (i = 0; i < m.length - 1; i++) {
+      if (m[i] !== prev) {
+        x.push(m[i]);
+      }
+      prev = m[i];
+    }
+
+    return x.length;
   };
 
   handleReverse = () => {
@@ -257,6 +350,12 @@ class App extends Component {
   handleSorto = () => {
     let counters = [...this.state.counters];
     let cr = counters.sort((a, b) => a.Date > b.Date);
+    this.setState({ counters: cr });
+  };
+
+  handleSortid = () => {
+    let counters = [...this.state.counters];
+    let cr = counters.sort((a, b) => a.id > b.id);
     this.setState({ counters: cr });
   };
 
@@ -417,12 +516,13 @@ class App extends Component {
   };
 
   render() {
+    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
     return (
       <React.Fragment>
         <Navbar
-          total={this.state.counters.filter(c => c.value > 0).length}
+          total={this.state.counters.length}
           sum={this.add()}
-          user={this.state.counters.length}
+          user={this.getNames()}
           cash={this.addd()}
           help={this.helper()}
           status={this.helpemoji()}
@@ -532,6 +632,9 @@ class App extends Component {
           <button onClick={this.handleReverse} className="btn btn-success m-5">
             Reverse
           </button>
+          <button onClick={this.handleSortid} className="btn btn-primary m-5">
+            Sort By ID
+          </button>
           <button onClick={this.handleSort} className="btn btn-primary m-5">
             Sort By Price
           </button>
@@ -575,13 +678,13 @@ class App extends Component {
             }}
           />
         </div>
-        <div style={{ width: 100 }}>
-          <PieChart
-            data={[
-              { title: "One", value: 10, color: "#E38627" },
-              { title: "Two", value: 15, color: "#C13C37" },
-              { title: "Three", value: 20, color: "#6A2135" }
-            ]}
+        <div style={{ width: "50%" }}>
+          <BarChart
+            ylabel="# Cash transactions"
+            width={500}
+            height={500}
+            margin={margin}
+            data={this.getNamecount()}
           />
         </div>
       </React.Fragment>

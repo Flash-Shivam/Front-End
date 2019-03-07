@@ -6,6 +6,7 @@
     "bootstrap": "^4.1.1",
     "history": "^4.7.2",
     "react": "^16.8.3",
+    "react-bar-chart": "^0.1.2",
     "react-calendar": "^2.18.1",
     "react-calendar-heatmap": "^1.8.0",
     "react-charts": "^2.0.0-alpha.12",

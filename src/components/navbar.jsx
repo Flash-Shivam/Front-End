@@ -8,19 +8,19 @@ class navbar extends Component {
           <a className="navbar-brand" href="#">
             STATS:{"    "}
             <span className="badge badge-pill badge-primary">
-              Total User : {this.props.user}
+              Total Number of Transactions : {this.props.total}
             </span>
             <span className="badge badge-pill badge-secondary m-2">
-              Total Items : {this.props.total}
+              Total Number of Users : {this.props.user}
             </span>
             <span className={"badge badge-lg badge-success m-2"}>
-              Net CASH : Rs {this.props.sum}
+              Net CASH Received : Rs {this.props.sum}
             </span>
             <span className={"badge badge-lg badge-success m-2"}>
               {this.helperr()}
             </span>
             <span className={"badge badge-lg badge-success m-2"}>
-              Net Cash: {this.props.cash}
+              Net Cash Transaction: {this.props.cash}
             </span>
             <span className={"badge-primary"}>
               Current Status : {this.props.status}
