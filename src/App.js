@@ -46,7 +46,7 @@ class App extends Component {
           value: 157,
           category: "books",
           sub_category: "Notebook",
-          Date: "2019-03-12"
+          Date: "2019-02-12"
         },
         {
           User: "NavNeel",
@@ -55,7 +55,7 @@ class App extends Component {
           value: 75,
           category: "books",
           sub_category: "TextBook",
-          Date: "2019-04-11"
+          Date: "2019-02-12"
         },
         {
           User: "NavNeel",
@@ -64,7 +64,7 @@ class App extends Component {
           value: 100,
           category: "online",
           sub_category: "Flipkart",
-          Date: "2019-03-01"
+          Date: "2019-03-06"
         },
         {
           User: "Shivam",
@@ -73,7 +73,7 @@ class App extends Component {
           value: 90,
           category: "books",
           sub_category: "NoteBook",
-          Date: "2019-04-12"
+          Date: "2019-03-07"
         },
         {
           User: "Shaswat",
@@ -82,7 +82,43 @@ class App extends Component {
           value: 48,
           category: "Food",
           sub_category: "Zomato",
-          Date: "2019-02-12"
+          Date: "2018-12-30"
+        },
+        {
+          User: "Shaswat",
+          sold: true,
+          id: 11,
+          value: 48,
+          category: "online",
+          sub_category: "Snapdeal",
+          Date: "2018-12-31"
+        },
+        {
+          User: "Shaswat",
+          sold: true,
+          id: 12,
+          value: 408,
+          category: "online",
+          sub_category: "Snapdeal",
+          Date: "2018-12-31"
+        },
+        {
+          User: "Shaswat",
+          sold: true,
+          id: 9,
+          value: 48,
+          category: "Food",
+          sub_category: "Swiggy",
+          Date: "2018-12-31"
+        },
+        {
+          User: "Shaswat",
+          sold: true,
+          id: 10,
+          value: 48,
+          category: "Food",
+          sub_category: "UberEats",
+          Date: "2018-12-31"
         },
         {
           User: "Manoj",
@@ -94,10 +130,7 @@ class App extends Component {
           Date: "2019-03-14"
         }
       ],
-      park: [
-        { date: "2019-03-07", count: 0 },
-        { date: "2019-04-10", count: 1 }
-      ],
+
       TotalMoney: 0,
       toggle: true
     };
@@ -175,6 +208,38 @@ class App extends Component {
   handleDelete = counterId => {
     const counters = this.state.counters.filter(c => c.id !== counterId);
     this.setState({ counters });
+  };
+
+  getDate = () => {
+    let i = 0;
+    var s = "";
+    for (i = 0; i < this.state.counters.length; i++) {
+      s = s + this.state.counters[i].Date + "@";
+    }
+    var m = s.split("@");
+    m.sort();
+    var y = [];
+    var x = [];
+    var z = [];
+    var prev;
+    for (i = 0; i < m.length - 1; i++) {
+      if (m[i] !== prev) {
+        x.push(m[i]);
+        z.push(1);
+      } else {
+        z[z.length - 1]++;
+      }
+      prev = m[i];
+    }
+
+    for (i = 0; i < m.length - 1; i++) {
+      y.push({
+        date: x[i],
+        count: z[i]
+      });
+    }
+
+    return y;
   };
 
   handleReverse = () => {
@@ -364,7 +429,7 @@ class App extends Component {
         />
         <h1 className="text text-center text-bold bg-primary  ">IITD MART</h1>
 
-        <main>
+        <main className="jumbotron">
           <form onSubmit={this.handleSubmit}>
             <label>
               Net CASH transctions after the Date:
@@ -482,25 +547,27 @@ class App extends Component {
         </main>
         <div className={"jumbotron "} style={{ width: 500 }} className="m-2 ">
           <CalendarHeatmap
-            startDate={new Date(this.state.counters[this.mindate()].Date) - 1}
-            endDate={new Date(this.state.counters[this.maxxdate()].Date) + 1}
-            values={[
-              { date: "2019-01-13", count: 1 },
-              { date: "2019-01-31", count: 4 },
-              { date: "2019-03-19", count: 2 },
-              { date: this.state.counters[this.maxxdate()].Date, count: 3 },
-              { date: this.state.counters[this.mindate()].Date, count: 4 }
-              // ...and so on
-            ]}
+            startDate={new Date(this.state.counters[this.mindate()].Date)}
+            endDate={new Date()}
+            values={this.getDate()}
             classForValue={value => {
               if (!value) {
                 return "color-empty";
+              } else if (value.count <= 4) {
+                return `color-scale-${value.count}`;
+              } else {
+                return `color-scale-5`;
               }
-              return `color-scale-${value.count}`;
             }}
             onMouseOver={(event, value) => {
               if (value) {
-                alert(value.date);
+                alert(
+                  "Transaction date: " +
+                    value.date +
+                    " \n" +
+                    "Number of transactions:" +
+                    value.count
+                );
               }
             }}
             showWeekdayLabels={() => {
