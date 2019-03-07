@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Navbar from "./components/navbar";
 import Counters from "./components/counters";
 import "./App.css";
-import { FaBeer, FaSmile, FaSadCry } from "react-icons/fa";
+import { FaSmile, FaSadCry } from "react-icons/fa";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import "./components/style.css";
@@ -37,7 +37,7 @@ class App extends Component {
           value: 400,
           category: "books",
           sub_category: "Register",
-          Date: "2019-11-12"
+          Date: "2019-02-12"
         },
         {
           User: "Shourya",
@@ -46,7 +46,7 @@ class App extends Component {
           value: 157,
           category: "books",
           sub_category: "Notebook",
-          Date: "2019-10-12"
+          Date: "2019-03-12"
         },
         {
           User: "NavNeel",
@@ -55,7 +55,7 @@ class App extends Component {
           value: 75,
           category: "books",
           sub_category: "TextBook",
-          Date: "2019-10-11"
+          Date: "2019-04-11"
         },
         {
           User: "NavNeel",
@@ -73,7 +73,7 @@ class App extends Component {
           value: 90,
           category: "books",
           sub_category: "NoteBook",
-          Date: "2016-04-12"
+          Date: "2019-04-12"
         },
         {
           User: "Shaswat",
@@ -91,8 +91,12 @@ class App extends Component {
           value: 423,
           category: "Food",
           sub_category: "UberEats",
-          Date: "2018-03-14"
+          Date: "2019-03-14"
         }
+      ],
+      park: [
+        { date: "2019-03-07", count: 0 },
+        { date: "2019-04-10", count: 1 }
       ],
       TotalMoney: 0,
       toggle: true
@@ -255,6 +259,36 @@ class App extends Component {
     return x;
   };
 
+  maxxdate = () => {
+    const counters = [...this.state.counters];
+    let i = 0;
+    let x = counters[0].Date;
+    let y = 0;
+    for (i = 1; i < counters.length; i++) {
+      if (counters[i].Date > x) {
+        x = counters[i].Date;
+        y = i;
+      }
+    }
+    console.log(y);
+    return y;
+  };
+
+  mindate = () => {
+    const counters = [...this.state.counters];
+    let i = 0;
+    let x = counters[0].Date;
+    let y = 0;
+    for (i = 1; i < counters.length; i++) {
+      if (counters[i].Date < x) {
+        x = counters[i].Date;
+        y = i;
+      }
+    }
+    console.log(y);
+    return y;
+  };
+
   addd = () => {
     const counters = [...this.state.counters];
     let i = 0;
@@ -330,7 +364,7 @@ class App extends Component {
         />
         <h1 className="text text-center text-bold bg-primary  ">IITD MART</h1>
 
-        <main className="jumbotron  ">
+        <main>
           <form onSubmit={this.handleSubmit}>
             <label>
               Net CASH transctions after the Date:
@@ -355,12 +389,14 @@ class App extends Component {
               />
             </label>
           </form>
-          <input
-            type="checkbox"
-            onChange={this.handleCheck}
-            defaultChecked={this.state.checked}
-          />
-
+          <p>
+            Hide
+            <input
+              type="checkbox"
+              onChange={this.handleCheck}
+              defaultChecked={this.state.checked}
+            />
+          </p>
           {this.track()}
           <div />
           <form>
@@ -444,14 +480,16 @@ class App extends Component {
             Sort By Category
           </button>
         </main>
-        <div style={{ width: 500 }} className="m-2 ">
+        <div className={"jumbotron "} style={{ width: 500 }} className="m-2 ">
           <CalendarHeatmap
-            startDate={new Date("2016-01-01")}
-            endDate={new Date("2016-04-01")}
+            startDate={new Date(this.state.counters[this.mindate()].Date) - 1}
+            endDate={new Date(this.state.counters[this.maxxdate()].Date) + 1}
             values={[
-              { date: "2016-01-07", count: 3 },
-              { date: "2016-01-03", count: 4 },
-              { date: "2016-04-01", count: 2 }
+              { date: "2019-01-13", count: 1 },
+              { date: "2019-01-31", count: 4 },
+              { date: "2019-03-19", count: 2 },
+              { date: this.state.counters[this.maxxdate()].Date, count: 3 },
+              { date: this.state.counters[this.mindate()].Date, count: 4 }
               // ...and so on
             ]}
             classForValue={value => {
@@ -459,6 +497,14 @@ class App extends Component {
                 return "color-empty";
               }
               return `color-scale-${value.count}`;
+            }}
+            onMouseOver={(event, value) => {
+              if (value) {
+                alert(value.date);
+              }
+            }}
+            showWeekdayLabels={() => {
+              return true;
             }}
           />
         </div>
@@ -470,7 +516,6 @@ class App extends Component {
               { title: "Three", value: 20, color: "#6A2135" }
             ]}
           />
-          ;
         </div>
       </React.Fragment>
     );
