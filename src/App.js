@@ -668,7 +668,7 @@ class App extends Component {
               />
             </label>
           </form>
-          <ul>{ab}</ul>
+
           <form onSubmit={this.changeval}>
             <label>
               Exchange Rate:
@@ -837,6 +837,7 @@ class App extends Component {
     if (this.state.checked === false) {
       return (
         <Counters
+          ab={this.getSearch}
           counters={this.state.counters}
           OnReset={this.handleReset}
           OnIncrement={this.handleIncrement}
