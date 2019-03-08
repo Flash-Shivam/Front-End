@@ -131,7 +131,9 @@ class App extends Component {
       ],
       Newid: "",
       TotalMoney: 0,
-      toggle: true
+      toggle: true,
+      range: "0-3",
+      search: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -145,6 +147,8 @@ class App extends Component {
     this.handlePrice = this.handlePrice.bind(this);
     this.handleId = this.handleId.bind(this);
     this.handleType = this.handleType.bind(this);
+    this.changerange = this.changerange.bind(this);
+    this.handlesearch = this.handlesearch.bind(this);
   }
   handleCat(event) {
     this.setState({ NewCat: event.target.value });
@@ -156,6 +160,10 @@ class App extends Component {
 
   handlePrice(event) {
     this.setState({ NewPrice: event.target.value });
+  }
+
+  handlesearch(event) {
+    this.setState({ search: event.target.value });
   }
 
   handleType(event) {
@@ -180,6 +188,11 @@ class App extends Component {
 
   changeval(event) {
     this.setState({ ExchangeRate: event.target.value });
+    event.preventDefault();
+  }
+
+  changerange(event) {
+    this.setState({ range: event.target.value });
     event.preventDefault();
   }
 
@@ -479,6 +492,70 @@ class App extends Component {
     return y;
   };
 
+  getrange = () => {
+    let x = this.state.range;
+    let y = x.split("-");
+    let z = [];
+    let i = 0;
+    y.sort();
+    let p = parseInt(y[0], 10);
+    let q = parseInt(y[1], 10);
+    if (q >= this.state.counters.length) {
+      q = this.state.counters.length - 1;
+    }
+    for (i = p; i <= q; i++) {
+      z.push(this.state.counters[i]);
+    }
+
+    return z;
+  };
+
+  getSearch = () => {
+    let m = this.state.range;
+    let y = m.split("-");
+
+    y.sort();
+    let p = parseInt(y[0], 10);
+    let q = parseInt(y[1], 10);
+    if (q >= this.state.counters.length) {
+      q = this.state.counters.length - 1;
+    }
+    let x = this.state.search;
+    if (x === "") {
+      return this.getrange();
+    }
+    let i = 0;
+    let z = [];
+    for (i = p; i <= q; i++) {
+      if (this.state.counters[i].User.includes(x)) {
+        z.push(this.state.counters[i]);
+      }
+      if (this.state.counters[i].Date.includes(x)) {
+        z.push(this.state.counters[i]);
+      }
+      if (this.state.counters[i].category.includes(x)) {
+        z.push(this.state.counters[i]);
+      }
+      if (this.state.counters[i].sub_category.includes(x)) {
+        z.push(this.state.counters[i]);
+      }
+
+      if (this.state.counters[i].value.toString().includes(x)) {
+        z.push(this.state.counters[i]);
+      }
+    }
+    let w = [];
+    var prev;
+    z.sort();
+    for (i = 0; i < z.length; i++) {
+      if (z[i] !== prev) {
+        w.push(z[i]);
+      }
+      prev = z[i];
+    }
+    return w;
+  };
+
   addUserMoney = username => {
     const counters = [...this.state.counters];
     let i = 0;
@@ -516,6 +593,32 @@ class App extends Component {
   };
 
   render() {
+    const z = this.getrange().map(c => (
+      <li>
+        {c.User +
+          "     " +
+          c.value +
+          "    " +
+          c.category +
+          "    " +
+          c.sub_category +
+          "    " +
+          c.Date}
+      </li>
+    ));
+    const ab = this.getSearch().map(c => (
+      <li>
+        {c.User +
+          "     " +
+          c.value +
+          "    " +
+          c.category +
+          "    " +
+          c.sub_category +
+          "    " +
+          c.Date}
+      </li>
+    ));
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
     return (
       <React.Fragment>
@@ -542,7 +645,30 @@ class App extends Component {
             </label>
             <input type="submit" className="text text-success" value="Submit" />
           </form>
+          <form onSubmit={this.changerange}>
+            <label>
+              Range
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.range}
+                onChange={this.changerange}
+              />
+            </label>
+          </form>
 
+          <form onSubmit={this.handlesearch}>
+            <label>
+              Search :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.search}
+                onChange={this.handlesearch}
+              />
+            </label>
+          </form>
+          <ul>{ab}</ul>
           <form onSubmit={this.changeval}>
             <label>
               Exchange Rate:
