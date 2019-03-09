@@ -3,6 +3,7 @@ import Counter from "./counter";
 
 class Counters extends Component {
   render() {
+    const u = this.props.v;
     const we = this.props.ab().map(c => (
       <table className="table table-bordered table-stripped table-hover">
         <thead>{c.User}</thead>

@@ -133,7 +133,8 @@ class App extends Component {
       TotalMoney: 0,
       toggle: true,
       range: "0-3",
-      search: ""
+      search: "",
+      v: "0"
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -149,9 +150,14 @@ class App extends Component {
     this.handleType = this.handleType.bind(this);
     this.changerange = this.changerange.bind(this);
     this.handlesearch = this.handlesearch.bind(this);
+    this.handlei = this.handlei.bind(this);
   }
   handleCat(event) {
     this.setState({ NewCat: event.target.value });
+  }
+
+  handlei(event) {
+    this.setState({ v: event.target.value });
   }
 
   handleUser(event) {
@@ -669,6 +675,18 @@ class App extends Component {
             </label>
           </form>
 
+          <form onSubmit={this.handlei}>
+            <label>
+              Change By:
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.v}
+                onChange={this.handlei}
+              />
+            </label>
+          </form>
+
           <form onSubmit={this.changeval}>
             <label>
               Exchange Rate:
@@ -840,6 +858,7 @@ class App extends Component {
           ab={this.getSearch}
           counters={this.state.counters}
           OnReset={this.handleReset}
+          v={this.state.v}
           OnIncrement={this.handleIncrement}
           OnDelete={this.handleDelete}
           OnShow={this.handleShowBooks}
