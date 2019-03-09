@@ -3,7 +3,6 @@ import Counter from "./counter";
 
 class Counters extends Component {
   render() {
-    const u = this.props.v;
     const we = this.props.ab().map(c => (
       <table className="table table-bordered table-stripped table-hover">
         <thead>{c.User}</thead>
@@ -13,8 +12,8 @@ class Counters extends Component {
           <th className="text-center">Category</th>
           <th className="text-center">Date</th>
           <th className="text-center">Type of Transaction</th>
-          <th className="text-center">Delete</th>
-          <th className="text-center">Increment</th>
+          {/* <th className="text-center">Delete</th>
+          <th className="text-center">Increment</th> */}
           <th className="text-center">{this.kim_2(c.sold) + " " + c.User}</th>
         </tr>
         <td className="text-center">{c.id}</td>
@@ -26,22 +25,8 @@ class Counters extends Component {
         <td className="text-center">{c.category}</td>
         <td className="text-center">{c.Date}</td>
         <td className="text-center">{this.sim_2(c.sold)}</td>
-        <td className="text-center">
-          <button
-            onClick={() => this.props.onDelete(c.id)}
-            className="btn btn-danger btn-default m-2"
-          >
-            Delete
-          </button>
-        </td>
-        <td className="text-center">
-          <button
-            onClick={() => this.props.onIncrement(c, 10)}
-            className="btn btn-secondary btn-default m-2"
-          >
-            Increment
-          </button>
-        </td>
+        {/* <td className="text-center">{this.props.onDelete(c.id)}</td>
+          <td className="text-center">{this.props.onIncrement(c,10)}</td> */}
         <td className="text-center">
           <h3 className={this.helps_2(c.User)}>{this.MoneySold_2(c.User)}</h3>
         </td>
@@ -49,13 +34,13 @@ class Counters extends Component {
     ));
     return (
       <React.Fragment>
-        <button onClick={this.props.OnShow} className="m-2">
+        {/* <button onClick={this.props.OnShow} className="m-2">
           books
         </button>
 
         <button onClick={this.props.OnShowOnline} className="m-2">
           online
-        </button>
+        </button> */}
 
         <button
           onClick={this.props.OnReset}

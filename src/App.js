@@ -134,7 +134,9 @@ class App extends Component {
       toggle: true,
       range: "0-3",
       search: "",
-      v: "0"
+      del: "-1",
+      quasi: "0",
+      chan: "0"
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -150,14 +152,24 @@ class App extends Component {
     this.handleType = this.handleType.bind(this);
     this.changerange = this.changerange.bind(this);
     this.handlesearch = this.handlesearch.bind(this);
-    this.handlei = this.handlei.bind(this);
+    this.handledel = this.handledel.bind(this);
+    this.handlequasi = this.handlequasi.bind(this);
+    this.handlechan = this.handlechan.bind(this);
   }
   handleCat(event) {
     this.setState({ NewCat: event.target.value });
   }
 
-  handlei(event) {
-    this.setState({ v: event.target.value });
+  handledel(event) {
+    this.setState({ del: event.target.value });
+  }
+
+  handlechan(event) {
+    this.setState({ chan: event.target.value });
+  }
+
+  handlequasi(event) {
+    this.setState({ quasi: event.target.value });
   }
 
   handleUser(event) {
@@ -223,8 +235,10 @@ class App extends Component {
     this.setState({ toggle: false });
   }
 
-  handleDelete = counterId => {
-    const counters = this.state.counters.filter(c => c.id !== counterId);
+  handleDelete = () => {
+    const counters = this.state.counters.filter(
+      c => c.id !== parseInt(this.state.del, 10)
+    );
     this.setState({ counters });
   };
 
@@ -396,6 +410,18 @@ class App extends Component {
       return c;
     });
     this.setState({ counters });
+  };
+
+  changeprice = () => {
+    var z = [...this.state.counters];
+    let i = 0;
+    for (i = 0; i < z.length; i++) {
+      if (z[i].id === parseInt(this.state.quasi, 10)) {
+        z[i].value = z[i].value + parseInt(this.state.chan, 10);
+        break;
+      }
+    }
+    this.setState({ counters: z });
   };
 
   handleIncrement = (counter, r) => {
@@ -625,6 +651,7 @@ class App extends Component {
           c.Date}
       </li>
     ));
+    const ret = parseInt(this.state.del, 10);
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
     return (
       <React.Fragment>
@@ -675,18 +702,46 @@ class App extends Component {
             </label>
           </form>
 
-          <form onSubmit={this.handlei}>
+          <form onSubmit={this.handledel}>
             <label>
-              Change By:
+              Delete Entry :
               <input
                 className="m-2"
                 type="text"
-                value={this.state.v}
-                onChange={this.handlei}
+                value={this.state.del}
+                onChange={this.handledel}
               />
             </label>
           </form>
 
+          <button onClick={this.handleDelete} className="btn btn-danger ">
+            Delete
+          </button>
+
+          <form>
+            <label>
+              Id to be incremented :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.quasi}
+                onChange={this.handlequasi}
+              />
+            </label>
+
+            <label>
+              by :
+              <input
+                className="m-2"
+                type="text"
+                value={this.state.chan}
+                onChange={this.handlechan}
+              />
+            </label>
+          </form>
+          <button onClick={this.changeprice} className="btn btn-success ">
+            Change
+          </button>
           <form onSubmit={this.changeval}>
             <label>
               Exchange Rate:
@@ -699,7 +754,7 @@ class App extends Component {
             </label>
           </form>
           <p>
-            Hide
+            Hide Data
             <input
               type="checkbox"
               onChange={this.handleCheck}
@@ -858,7 +913,6 @@ class App extends Component {
           ab={this.getSearch}
           counters={this.state.counters}
           OnReset={this.handleReset}
-          v={this.state.v}
           OnIncrement={this.handleIncrement}
           OnDelete={this.handleDelete}
           OnShow={this.handleShowBooks}
